@@ -1,71 +1,83 @@
 # pages/4_The_Construction_of_Merit.py
 # Beyond the Ban | Page 4
-# THE CONSTRUCTION OF MERIT
-# SAT Scores, Family Background, and the Myth of Equal Preparation
+# THE CONSTRUCTION OF MERIT (SAT CASE STUDY — 2022 COLLEGE BOARD DATA)
 
 import streamlit as st
 import pandas as pd
 import altair as alt
-import os
 
 # ---------------------------------------------------------
 # PAGE CONFIG
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="The Construction of Merit | Beyond the Ban",
-    page_icon="📘",
+    page_title="The Construction of Merit",
+    page_icon="⚖️",
     layout="wide"
 )
 
 # ---------------------------------------------------------
-# STYLE — streamlined to match site aesthetic
+# STYLE
 # ---------------------------------------------------------
 st.markdown("""
 <style>
 .main {
     background: linear-gradient(to bottom, #fdfdfd, #ffffff);
 }
+
 .page-header {
     text-align: center;
     padding: 20px 0 10px 0;
 }
+
 .page-header h1 {
-    color: #1a2a6c;
     font-size: 3rem;
-    margin-bottom: 0.2rem;
+    font-weight: 800;
+    color: #1a2a6c;
 }
+
 .page-header p {
     font-size: 1.2rem;
     color: #666;
-    max-width: 900px;
+    max-width: 950px;
     margin: auto;
+    line-height: 1.6;
 }
-.section-box {
-    padding: 22px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
+
+.section-title {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #1a2a6c;
+    margin-top: 40px;
+    margin-bottom: 15px;
 }
-.justice-box {
-    padding: 25px;
-    background-color: #f8f9fc;
-    border-left: 6px solid #8B0000;
-    border-radius: 8px;
-    margin: 25px 0;
-    line-height: 1.8;
+
+.text-block {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: justify;
 }
+
 .insight-box {
     padding: 18px;
     background-color: #f0f4f8;
     border-left: 5px solid #1a2a6c;
     border-radius: 8px;
     margin-top: 15px;
-    line-height: 1.7;
 }
+
+.justice-box {
+    padding: 22px;
+    background-color: #f8f9fc;
+    border-left: 6px solid #8B0000;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
 .big-stat {
-    font-size: 2.4rem;
-    font-weight: 800;
+    font-size: 2.5rem;
+    font-weight: 900;
     color: #8B0000;
     text-align: center;
 }
@@ -79,9 +91,8 @@ st.markdown("""
 <div class="page-header">
     <h1>The Construction of Merit</h1>
     <p>
-        Standardized testing has often been framed as an objective measure of merit.
-        But what if merit itself reflects unequal access to preparation,
-        educational resources, and inherent structural advantage?
+        A case study using official College Board SAT 2022 data to examine a central question:
+        is merit measured, or is it produced through unequal systems of preparation?
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -89,249 +100,181 @@ st.markdown("""
 st.divider()
 
 # ---------------------------------------------------------
-# JUSTICE FRAME
+# SECTION I — CORE CLAIM
 # ---------------------------------------------------------
 st.markdown("""
-<div class="section-title">
-    <h3 style='color:#8B0000;'>Is merit measured, or is it manufactured?</h3>
-    <p>
-        SAT scores are frequently treated as unbiased indicators of college readiness.
-        Yet, test performance is deeply shaped by parental education,
-        economic resources, school quality, language environment,
-        and long-term, persistent structural inequalities.
-    </p>
-    <p>
-        If students do not begin from the same baseline,
-        then numerical data may not simply identify talent.
-            They also reflect the notion of unequal opportunity that exists in America today.
-    </p>
+<div class="section-title">I. What the SAT Actually Measures</div>
+
+<div class="text-block">
+The SAT is often treated as a neutral proxy for academic ability.
+However, 2022 College Board data reveals something more complicated:
+performance is not evenly distributed both in scores, as well as in who participates in the test at all.
+</div>
+
+<div class="text-block">
+The SAT evaluates merit <i>after inequality has already shaped access to preparation, opportunity, and participation.</i>
 </div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# LOAD DATA
+# SECTION II — PARTICIPATION BY GROUP
 # ---------------------------------------------------------
-DATA_PATH = "assets/SAT_Data.csv"
+st.markdown('<div class="section-title">II. Who Takes the SAT?</div>', unsafe_allow_html=True)
 
-if not os.path.exists(DATA_PATH):
-    st.error("SAT_Data.csv not found in assets folder.")
-    st.stop()
-
-# ---------------------------------------------------------
-# CLEAN RAW CSV
-# ---------------------------------------------------------
-raw = pd.read_csv(DATA_PATH, header=None)
-
-# Pull relevant parental education rows manually
-rows = raw[raw[0].astype(str).str.contains(
-    "No high school diploma|High school diploma|Associate's degree|Bachelor's degree|Graduate degree",
-    na=False
-)].copy()
-
-# Column map for 2022:
-# col18 = number, col19 = %, col20 = total, col21 = ERW, col22 = Math
-# Since CSV indexing starts at 0, actual columns are 16–20
-parent_ed = pd.DataFrame({
-    "Parental Education": rows[0].astype(str).str.strip(),
-    "Participation_2022": rows[16].astype(str).str.replace(",", "", regex=False),
-    "Percent_2022": rows[17],
-    "Total_2022": rows[18],
-    "ERW_2022": rows[19],
-    "Math_2022": rows[20]
+participation = pd.DataFrame({
+    "Group": ["White", "Hispanic", "Black", "Asian", "2+ Races", "No Response"],
+    "Percent": [42, 23, 12, 10, 4, 8]
 })
 
-# Numeric cleanup
-for col in ["Participation_2022", "Percent_2022", "Total_2022", "ERW_2022", "Math_2022"]:
-    parent_ed[col] = pd.to_numeric(parent_ed[col], errors="coerce")
+chart_participation = alt.Chart(participation).mark_bar().encode(
+    x=alt.X("Group:N", sort="-y"),
+    y=alt.Y("Percent:Q", title="Percent of SAT Test Takers"),
+    tooltip=["Group", "Percent"]
+).properties(height=600, title="SAT Test Takers by Race")
 
-parent_ed = parent_ed.dropna()
+st.altair_chart(chart_participation, use_container_width=True)
 
-# Ordered categories
-education_order = [
-    "No high school diploma",
-    "High school diploma",
-    "Associate's degree",
-    "Bachelor's degree",
-    "Graduate degree"
-]
+st.markdown("""
+<div class="text-block">
+Participation itself is unequal.
+Some groups are overrepresented in the SAT pool relative to population,
+while others are underrepresented, meaning comparisons of merit begin on an uneven basis.
+</div>
+""", unsafe_allow_html=True)
 
-parent_ed["Parental Education"] = pd.Categorical(
-    parent_ed["Parental Education"],
-    categories=education_order,
+# ---------------------------------------------------------
+# SECTION III — MEAN SCORES BY RACE
+# ---------------------------------------------------------
+st.markdown('<div class="section-title">III. Mean SAT Scores by Race/Ethnicity</div>', unsafe_allow_html=True)
+
+scores = pd.DataFrame({
+    "Group": ["Asian", "2+ Races", "White", "Hispanic", "NHPI", "AIAN", "Black"],
+    "Mean_SAT": [1229, 1102, 1098, 964, 945, 936, 926]
+})
+
+chart_scores = alt.Chart(scores).mark_bar().encode(
+    x=alt.X("Group:N", sort="-y"),
+    y=alt.Y("Mean_SAT:Q"),
+    tooltip=["Group", "Mean_SAT"]
+).properties(height=650)
+
+st.altair_chart(chart_scores, use_container_width=True)
+
+st.markdown("""
+<div class="text-block">
+The SAT is often interpreted as ranking ability.
+But these averages also reflect structural differences in:
+<ul>
+<li>School funding</li>
+<li>Test prep access</li>
+<li>Language environment</li>
+<li>Neighborhood opportunity</li>
+<li>Historical inequality in education systems</li>
+</ul>
+</div>
+""", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# SECTION IV — SCORE DISTRIBUTION SHAPES (FIXED)
+# ---------------------------------------------------------
+st.markdown('<div class="section-title">IV. Score Distributions</div>', unsafe_allow_html=True)
+
+# Ordered score bands from low → high
+score_band_order = ["600-790", "800-990", "1000-1190", "1200-1390", "1400-1600"]
+
+dist = pd.DataFrame({
+    "Band": score_band_order,
+    "Black": [24, 45, 22, 7, 1],
+    "Hispanic": [18, 42, 27, 10, 2],
+    "White": [5, 26, 38, 24, 7],
+    "Asian": [3, 13, 26, 31, 27],
+    "Multiracial": [6, 27, 34, 23, 10]
+})
+
+# Convert to long format
+dist_long = dist.melt(
+    id_vars="Band",
+    var_name="Group",
+    value_name="Percent"
+)
+
+# Explicit category ordering
+dist_long["Band"] = pd.Categorical(
+    dist_long["Band"],
+    categories=score_band_order,
     ordered=True
 )
 
-parent_ed = parent_ed.sort_values("Parental Education")
-
-# ---------------------------------------------------------
-# SECTION 1 — SAT SCORE BY PARENT EDUCATION
-# ---------------------------------------------------------
-st.subheader("1. SAT Scores Rise Dramatically with Parental Education")
-
-chart1 = alt.Chart(parent_ed).mark_bar().encode(
+# Side-by-side grouped bars
+chart_dist = alt.Chart(dist_long).mark_bar().encode(
     x=alt.X(
-        "Parental Education:N",
-        sort=education_order,
-        title="Highest Level of Parental Education"
+        "Band:N",
+        sort=score_band_order,
+        title="SAT Score Band"
     ),
     y=alt.Y(
-        "Total_2022:Q",
-        title="Average Total SAT Score (2022)"
+        "Percent:Q",
+        title="Percent of Students in Score Band"
     ),
+    color=alt.Color(
+        "Group:N",
+        title="Race / Ethnicity"
+    ),
+    xOffset="Group:N",
     tooltip=[
-        alt.Tooltip("Parental Education:N"),
-        alt.Tooltip("Total_2022:Q", title="SAT Score")
+        alt.Tooltip("Group:N", title="Group"),
+        alt.Tooltip("Band:N", title="Score Band"),
+        alt.Tooltip("Percent:Q", title="% of Students")
     ]
 ).properties(
-    height=500
+    height=800,
+    title="2022 SAT Score Distribution by Race/Ethnicity"
 )
 
-st.altair_chart(chart1, use_container_width=True)
+st.altair_chart(chart_dist, use_container_width=True)
 
-score_gap = int(
-    parent_ed[parent_ed["Parental Education"] == "Graduate degree"]["Total_2022"].iloc[0] -
-    parent_ed[parent_ed["Parental Education"] == "No high school diploma"]["Total_2022"].iloc[0]
-)
+st.markdown("""
+<div class="text-block">
+Looking only at average SAT scores can obscure how opportunity is distributed across entire populations.
+This visualization instead shows where students are concentrated across score bands.
+</div>
 
-st.markdown(f"""
+<div class="text-block">
+At their core, the differences are structural shifts in where large portions of students fall within the score spectrum.
+Because selective colleges often rely on score thresholds, benchmark expectations,
+or holistic comparisons influenced by academic ranges,
+these distribution differences can compound dramatically in admissions outcomes.
+</div>
+
 <div class="insight-box">
-    <div class="big-stat">{score_gap}-point gap</div>
-    Students whose parents hold graduate degrees score dramatically higher on average
-    than students whose parents did not complete high school.
-    <br><br>
-    This gap is larger than many admissions margins at selective colleges.
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-**Interpretation:**  
-This does not mean intelligence is inherited by educational status.  
-It suggests that preparation, educational environment, tutoring access,
-school funding, and accumulated social capital profoundly shape measurable outcomes.
-""")
-
-st.divider()
-
-# ---------------------------------------------------------
-# SECTION 2 — SAT PARTICIPATION
-# ---------------------------------------------------------
-st.subheader("2. Who Even Enters the Meritocracy? SAT Participation by Family Background")
-
-chart2 = alt.Chart(parent_ed).mark_line(point=True).encode(
-    x=alt.X(
-        "Parental Education:N",
-        sort=education_order,
-        title="Highest Level of Parental Education"
-    ),
-    y=alt.Y(
-        "Percent_2022:Q",
-        title="% of SAT Test-Taking Population"
-    ),
-    tooltip=[
-        alt.Tooltip("Parental Education:N"),
-        alt.Tooltip("Percent_2022:Q", format=".1f")
-    ]
-).properties(
-    height=500
-)
-
-st.altair_chart(chart2, use_container_width=True)
-
-st.markdown("""
-**Why this matters:**  
-Merit systems do not simply reward performance —
-they first depend on participation.
-
-Students from more educated households are often more likely to:
-- Take college entrance exams  
-- Receive application guidance  
-- Access preparation resources  
-- View selective college as attainable  
-
-This means inequality can shape not only scores,
-but who enters the competitive arena at all.
-""")
-
-st.divider()
-
-# ---------------------------------------------------------
-# SECTION 3 — ERW vs MATH
-# ---------------------------------------------------------
-st.subheader("3. Merit Is Multi-Dimensional: Section Performance by Family Background")
-
-long_scores = parent_ed.melt(
-    id_vars=["Parental Education"],
-    value_vars=["ERW_2022", "Math_2022"],
-    var_name="Section",
-    value_name="Score"
-)
-
-long_scores["Section"] = long_scores["Section"].replace({
-    "ERW_2022": "ERW",
-    "Math_2022": "Math"
-})
-
-chart3 = alt.Chart(long_scores).mark_line(point=True).encode(
-    x=alt.X(
-        "Parental Education:N",
-        sort=education_order,
-        title="Highest Level of Parental Education"
-    ),
-    y=alt.Y("Score:Q", title="Average Section Score"),
-    color=alt.Color("Section:N"),
-    tooltip=["Parental Education", "Section", "Score"]
-).properties(
-    height=500
-)
-
-st.altair_chart(chart3, use_container_width=True)
-
-st.markdown("""
-**Key Observation:**  
-Both reading and math performance rise consistently with parental education,
-suggesting broad structural influence rather than isolated subject-specific differences.
-""")
-
-st.divider()
-
-# ---------------------------------------------------------
-# SECTION 4 — JUSTICE SYNTHESIS
-# ---------------------------------------------------------
-st.subheader("4. So What Does This Mean for Meritocracy?")
-
-st.markdown("""
-<div class="justice-box">
-    <h3 style='color:#8B0000;'>Merit is not created in a vacuum.</h3>
-    <p>
-        Standardized scores may measure performance,
-        but performance itself develops through unequal systems:
-        household stability, parental knowledge, school quality,
-        tutoring, neighborhood opportunity, and financial security.
-    </p>
-    <p>
-        When admissions rely heavily on metrics shaped by unequal preparation,
-        institutions may reward prior advantage while appearing neutral.
-    </p>
+This is one of the clearest illustrations of this project's broader claim:
+academic merit is not merely an isolated measurement of talent.
+It is shaped by the unequal distribution of preparation long before an admissions office reviews an application.
 </div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# FINAL CLAIM
+# SECTION VI — FINAL ARGUMENT
 # ---------------------------------------------------------
-st.divider()
-
-st.subheader("What This Page Argues")
+st.markdown('<div class="section-title">What This Case Study Shows</div>', unsafe_allow_html=True)
 
 st.markdown("""
-### Meritocracy can reproduce inequality when opportunity is unequal.
+<div class="text-block">
+Merit is a dependent outcome of unequal systems of preparation.
+</div>
 
-This page suggests that:
-- Test scores are powerful predictors  
-- But predictors are socially conditioned  
-- Structural inequality shapes measurable “merit”  
-- Equal treatment at the endpoint does not guarantee fairness at the starting line  
+<div class="text-block">
+The SAT itself does not create inequality.
+But it reflects inequalities that are already embedded in educational access.
+</div>
 
-## Bottom Line:
-**Affirmative action does not necessarily distort meritocracy.  
-It can function as an intervention within a system where merit itself has been unevenly constructed.**
-""")
+<div class="text-block">
+Therefore, treating SAT scores as purely individual achievement
+ignores the systems that produced those scores.
+</div>
+
+<div class="text-block">
+From this perspective, affirmative action is not a distortion of merit.
+It is a response to how merit is constructed in the first place.
+</div>
+""", unsafe_allow_html=True)

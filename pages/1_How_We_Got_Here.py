@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 st.set_page_config(
-    page_title="US Affirmative Action | Beyond the Ban",
+    page_title="How We Got Here",
     page_icon="⚖️",
     layout="wide"
 )

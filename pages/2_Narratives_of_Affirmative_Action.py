@@ -4,7 +4,7 @@ import streamlit as st
 # PAGE CONFIG
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Narratives | Beyond the Ban",
+    page_title="Narratives of Affirmative Action",
     page_icon="⚖️",
     layout="wide"
 )

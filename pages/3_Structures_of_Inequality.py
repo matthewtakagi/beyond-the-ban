@@ -12,14 +12,14 @@ import os
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Structures of Inequality",
-    page_icon="📊",
+    page_icon="⚖️",
     layout="wide"
 )
 
 DATA_PATH = "assets/CollegeAdmissions_Data.csv"
 
 # ---------------------------------------------------------
-# GLOBAL STYLE (MATCH TIMELINE PAGE CLEAN AESTHETIC)
+# STYLE
 # ---------------------------------------------------------
 st.markdown("""
 <style>
@@ -27,18 +27,18 @@ st.markdown("""
     background: linear-gradient(to bottom, #fdfdfd, #ffffff);
 }
 
-/* CENTER TITLE */
+/* HEADER */
 .page-header {
     text-align: center;
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .page-header h1 {
     font-size: 3rem;
     font-weight: 800;
     color: #1a2a6c;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 }
 
 .page-header p {
@@ -46,31 +46,33 @@ st.markdown("""
     color: #666;
 }
 
-/* SECTION HEADERS */
+/* SECTIONS */
 .section-title {
-    font-size: 1.6rem;
-    font-weight: 700;
+    font-size: 1.7rem;
+    font-weight: 750;
     color: #1a2a6c;
-    margin-top: 35px;
-    margin-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 12px;
 }
 
-/* TEXT BLOCKS */
+/* TEXT */
 .text-block {
-    font-size: 1.05rem;
-    line-height: 1.8;
+    font-size: 1.08rem;
+    line-height: 1.9;
     color: #333;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     text-align: justify;
 }
 
 /* INSIGHT BOX */
 .insight-box {
     background-color: #f0f4f8;
-    padding: 15px;
+    padding: 16px;
     border-radius: 8px;
     border-left: 4px solid #1a2a6c;
-    margin: 15px 0;
+    margin: 18px 0;
+    font-size: 1.02rem;
+    line-height: 1.7;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -81,28 +83,39 @@ st.markdown("""
 st.markdown("""
 <div class="page-header">
     <h1>Structures of Inequality</h1>
-    <p>Affirmative action is a pipeline shaped before, during, and after applications are even submitted.</p>
+    <p>Affirmative action operates not at the moment of a college admissions decision, but in response to inequality that is already structurally produced.</p>
 </div>
 """, unsafe_allow_html=True)
 
 st.divider()
 
 # ---------------------------------------------------------
-# INTRODUCTION
+# INTRODUCTION (EXPANDED)
 # ---------------------------------------------------------
-st.markdown("""
-<div class="section-title">What's actually measured here?</div>
+st.markdown('<div class="section-title">What does the data actually show?</div>', unsafe_allow_html=True)
 
+st.markdown("""
 <div class="text-block">
-Selective college admissions are often discussed as if they are the starting point of inequality debates.
-But the data suggests something different: by the time students reach application and enrollment,
-much of the distribution has already been shaped.
+Discussions about affirmative action often begin at the point of college admissions decisions.
+However, this framing can be misleading; it assumes that students arrive at the admissions stage with
+comparable preparation, opportunity, and access.
 </div>
 
 <div class="text-block">
-This page traces how opportunity changes across three stages:
-<b>application behavior → admissions results → conditional enrollment</b>.
-Each step reveals a different layer of structural inequality.
+The data used on this page suggests something more structural: by the time students apply to selective colleges,
+the distribution of opportunity has already been shaped by factors far outside the admissions office.
+These include differences in household income, school quality, access to advanced coursework,
+test preparation resources, among other factors.
+</div>
+
+<div class="text-block">
+This means that merit, often treated as an objective measure of ability, is itself partially the outcome of
+unequal conditions long before any college application is submitted.
+</div>
+
+<div class="insight-box">
+This page uses data from the Opportunity Insights project to examine how inequality accumulates across the college pipeline.
+Rather than treating admissions as the origin of disparity, it treats it as one stage in a longer structural process.
 </div>
 """, unsafe_allow_html=True)
 
@@ -124,7 +137,7 @@ df = df.sort_values("par_income_bin")
 # ---------------------------------------------------------
 # SECTION 1
 # ---------------------------------------------------------
-st.markdown('<div class="section-title">1. Representation Across Selective Colleges</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">1. Representation in Selective Colleges</div>', unsafe_allow_html=True)
 
 tier_income = (
     df.groupby(["tier_name", "par_income_lab", "par_income_bin"], as_index=False)
@@ -136,7 +149,10 @@ chart1 = alt.Chart(tier_income).mark_line(point=True).encode(
     y=alt.Y("rel_attend:Q", title="Relative Attendance (1.0 = expected)"),
     color="tier_name:N",
     tooltip=["tier_name", "par_income_lab", "rel_attend"]
-).properties(height=450)
+).properties(
+    height=600,
+    title="Selective College Attendance by Income Group"
+)
 
 st.altair_chart(chart1, use_container_width=True)
 
@@ -170,31 +186,31 @@ chart = alt.Chart(data_long).mark_bar().encode(
     color=alt.Color("Year:N", title="Year"),
     xOffset="Year:N",
     tooltip=["Race/Ethnicity", "Year", "Median Income"]
-
 ).properties(
-    height=450
+    height=600,
+    title="Median Income by Race/Ethnicity"
 )
-
-st.subheader("Median Income by Race/Ethnicity (2023-2024)")
 
 st.altair_chart(chart, use_container_width=True)
 
 st.markdown("""
-<div class="insight-box">
-If representation were fully meritocratic after controlling for potential confounding factors,
-all income groups would cluster near 1.0, creating an even distribution. Yet, at the highest bins of
-income groups, this is nowhere near the results that are seen.
-The widening gaps at higher tiers suggest that selectivity amplifies the inequality that exists
-between income groups at colleges across the country. Given the income disparaties that exist between
-different races and ethnicities here in the United States, this makes the disparities in representation
-all the more important.
+<div class="text-block">
+At selective colleges, attendance is not evenly distributed across income groups.
+Higher-income students are consistently overrepresented relative to their population share,
+while lower-income students are underrepresented.
+</div>
+
+<div class="text-block">
+This pattern is not explained solely by admissions decisions.
+Instead, it reflects earlier inequalities in preparation and access that shape who becomes
+a competitive applicant in the first place.
 </div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # SECTION 2
 # ---------------------------------------------------------
-st.markdown('<div class="section-title">2. Applications vs Enrollment</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">2. Applications vs. Enrollment</div>', unsafe_allow_html=True)
 
 pipeline = (
     df.groupby(["par_income_lab", "par_income_bin"], as_index=False)
@@ -218,26 +234,27 @@ chart2 = alt.Chart(pipeline_long).mark_line(point=True).encode(
     y=alt.Y("Value:Q", title="Relative Rate (1.0 = expected)"),
     color=alt.Color("Stage:N"),
     tooltip=["par_income_lab", "Stage", "Value"]
-).properties(height=450)
+).properties(height=600, title="Application, Attendance Rate by Income Group")
 
 st.altair_chart(chart2, use_container_width=True)
 
 st.markdown("""
-<div class="insight-box">
-This visualization separates two mechanisms:
-<ul>
-<li><b>Application differences</b>: who enters the pipeline</li>
-<li><b>Attendance differences</b>: who ultimately enrolls</li>
-</ul>
-Given that the gap between income groups already exists at the application stage,
-then inequality is not only an admissions issue; it is also a pre-admissions system.
+<div class="text-block">
+One of the most important distinctions in the pipeline is between application behavior and enrollment outcomes.
+Even before admissions committees evaluate students, application rates themselves differ substantially by income.
+</div>
+
+<div class="text-block">
+This means inequality is not solely a product of institutional selection.
+It is also embedded in who perceives selective colleges as accessible, who has the resources to apply,
+and who receives guidance to navigate the process.
 </div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # SECTION 3
 # ---------------------------------------------------------
-st.markdown('<div class="section-title">3. The Conditions After Applying</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">3. Conditional Outcomes After Application</div>', unsafe_allow_html=True)
 
 cond = (
     df.groupby(["par_income_lab", "par_income_bin"], as_index=False)
@@ -248,22 +265,27 @@ chart3 = alt.Chart(cond).mark_bar().encode(
     x=alt.X("par_income_lab:N", sort=alt.SortField("par_income_bin")),
     y=alt.Y("rel_att_cond_app:Q", title="Attendance Conditional on Application"),
     tooltip=["par_income_lab", "rel_att_cond_app"]
-).properties(height=420)
+).properties(height=600)
 
 st.altair_chart(chart3, use_container_width=True)
 
 st.markdown("""
-<div class="insight-box">
-This visualization isolates what happens after students have already made it into the applicant pool.
-Even here, income gradients persist, suggesting that disparities are not only about who applies,
-but also about how institutions evaluate similar applicants.
+<div class="text-block">
+Even after controlling for who applies, the disparities remain.
+This suggests that evaluation and admission processes do not fully counteract existing inequalities.
+</div>
+
+<div class="text-block">
+Of course, this does not imply intentional bias alone.
+It reflects the difficulty of separating merit from its determining conditions,
+where preparation, environment, and resources are already unevenly distributed.
 </div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# SECTION 4 (REBUILT + SIMPLIFIED)
+# SECTION 4
 # ---------------------------------------------------------
-st.markdown('<div class="section-title">4. The Income Gradient in Elite Access</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">4. Income Gradient in Elite Access</div>', unsafe_allow_html=True)
 
 top = (
     df.groupby("par_income_lab", as_index=False)
@@ -274,38 +296,42 @@ chart4 = alt.Chart(top).mark_bar().encode(
     x=alt.X("par_income_lab:N", sort="-y", title="Parental Income Group"),
     y=alt.Y("rel_attend:Q", title="Relative Attendance"),
     tooltip=["par_income_lab", "rel_attend"]
-).properties(height=420)
+).properties(
+    height=600,
+    title="Income Gradient in Elite College Attendance"
+)
 
 st.altair_chart(chart4, use_container_width=True)
 
 st.markdown("""
-<div class="insight-box">
-The steepness of this gradient reveals a significant question of the affirmative action debate.
-Is selective education distributing opportunity solely based on achievement,
-or is it also reinforcing pre-existing economic hierarchies?
+<div class="text-block">
+The steep gradient in elite attendance illustrates a core claim of this project:
+selective education operates on a playing field already shaped by broader socioeconomic inequality.
+</div>
+
+<div class="text-block">
+Affirmative action, in this context, is an attempt to respond to the fact that merit itself is something that is socially and economically produced.
 </div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # CONCLUSION
 # ---------------------------------------------------------
-st.markdown('<div class="section-title">The Takeaway</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">Key Takeaway</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="text-block">
-From these four visualizations, there exists a consistent pattern:
-inequality is not concentrated in a single stage of the college pipeline.
-It accumulates, starting from years before an individual applies for college and
-and continuing through the years after they've graduated.
+Across all stages of the college pipeline, inequality accumulates rather than appears at a single decision point.
+By the time admissions decisions are made, much of the variation in outcomes has already been shaped by structural conditions
+outside the control of applicants.
 </div>
 
 <div class="text-block">
-By the time admissions decisions are made, much of the distribution has already been shaped by
-access to preparation, information, and institutional signaling long before the application is submitted.
+This reframes this problem as a response to its pre-existing limitations.
+It functions as an intervention in a system where inequality is already embedded.
 </div>
 
 <div class="insight-box">
-Thus, affirmative action is reframed from a question of “who gets in” to a much deeper one:
-<b>where in the pipeline should justice intervene?</b>
+The central question is not whether affirmative action introduces inequality, but where in the process society chooses to address inequality that already exists.
 </div>
 """, unsafe_allow_html=True)
