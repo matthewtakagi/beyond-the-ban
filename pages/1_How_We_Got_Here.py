@@ -12,7 +12,24 @@ MEDIA_DIR = "media"
 st.markdown("""
 <style>
 .main { background: linear-gradient(to bottom, #fdfdfd, #ffffff); }
-.timeline-header { text-align: center; padding: 20px 0 10px 0; }
+/* CENTER TITLE */
+.page-header {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #1a2a6c;
+    margin-bottom: 5px;
+}
+
+.page-header p {
+    font-size: 1.2rem;
+    color: #666;
+}
 .timeline-block {
     padding: 25px;
     border-left: 5px solid #1a2a6c;
@@ -58,7 +75,6 @@ st.markdown("""
 .era-header {
     text-align: center;
     margin: 60px 0 40px 0;
-    font-family: 'Georgia', serif;
     color: #b22222;
     border-top: 2px solid #eee;
     padding-top: 20px;
@@ -67,7 +83,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<div class="timeline-header">
+<div class="page-header">
     <h1>How We Got Here</h1>
     <p style="font-size:1.2rem; color:#666;">From the 1800s until now, a history of race-conscious policy, legal pivots, and the quest for equity in the United States.</p>
 </div>
