@@ -1,23 +1,13 @@
-# pages/4_The_Construction_of_Merit.py
-# Beyond the Ban | Page 4
-# THE CONSTRUCTION OF MERIT (SAT CASE STUDY — 2022 COLLEGE BOARD DATA)
-
 import streamlit as st
 import pandas as pd
 import altair as alt
 
-# ---------------------------------------------------------
-# PAGE CONFIG
-# ---------------------------------------------------------
 st.set_page_config(
     page_title="The Construction of Merit",
     page_icon="⚖️",
     layout="wide"
 )
 
-# ---------------------------------------------------------
-# STYLE
-# ---------------------------------------------------------
 st.markdown("""
 <style>
 .main {
@@ -84,9 +74,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# HEADER
-# ---------------------------------------------------------
 st.markdown("""
 <div class="page-header">
     <h1>The Construction of Merit</h1>
@@ -99,9 +86,6 @@ st.markdown("""
 
 st.divider()
 
-# ---------------------------------------------------------
-# SECTION I — CORE CLAIM
-# ---------------------------------------------------------
 st.markdown("""
 <div class="section-title">I. What the SAT Actually Measures</div>
 
@@ -116,9 +100,6 @@ The SAT evaluates merit <i>after inequality has already shaped access to prepara
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION II — PARTICIPATION BY GROUP
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">II. Who Takes the SAT?</div>', unsafe_allow_html=True)
 
 participation = pd.DataFrame({
@@ -142,9 +123,6 @@ while others are underrepresented, meaning comparisons of merit begin on an unev
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION III — MEAN SCORES BY RACE
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">III. Mean SAT Scores by Race/Ethnicity</div>', unsafe_allow_html=True)
 
 scores = pd.DataFrame({
@@ -174,12 +152,8 @@ But these averages also reflect structural differences in:
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION IV — SCORE DISTRIBUTION SHAPES (FIXED)
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">IV. Score Distributions</div>', unsafe_allow_html=True)
 
-# Ordered score bands from low → high
 score_band_order = ["600-790", "800-990", "1000-1190", "1200-1390", "1400-1600"]
 
 dist = pd.DataFrame({
@@ -191,21 +165,18 @@ dist = pd.DataFrame({
     "Multiracial": [6, 27, 34, 23, 10]
 })
 
-# Convert to long format
 dist_long = dist.melt(
     id_vars="Band",
     var_name="Group",
     value_name="Percent"
 )
 
-# Explicit category ordering
 dist_long["Band"] = pd.Categorical(
     dist_long["Band"],
     categories=score_band_order,
     ordered=True
 )
 
-# Side-by-side grouped bars
 chart_dist = alt.Chart(dist_long).mark_bar().encode(
     x=alt.X(
         "Band:N",
@@ -253,9 +224,6 @@ It is shaped by the unequal distribution of preparation long before an admission
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION VI — FINAL ARGUMENT
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">What This Case Study Shows</div>', unsafe_allow_html=True)
 
 st.markdown("""

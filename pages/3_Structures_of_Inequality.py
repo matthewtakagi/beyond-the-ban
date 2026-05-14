@@ -1,7 +1,3 @@
-# pages/3_Selective_College_Pipeline.py
-# Beyond the Ban | Page 3
-# STRUCTURES OF INEQUALITY
-
 import streamlit as st
 import pandas as pd
 import altair as alt

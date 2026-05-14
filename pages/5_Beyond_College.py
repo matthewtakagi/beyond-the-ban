@@ -2,18 +2,12 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-# ---------------------------------------------------------
-# PAGE CONFIG
-# ---------------------------------------------------------
 st.set_page_config(
     page_title="Beyond College",
     page_icon="⚖️",
     layout="wide"
 )
 
-# ---------------------------------------------------------
-# STYLE
-# ---------------------------------------------------------
 st.markdown("""
 <style>
 .main {
@@ -83,9 +77,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# HEADER
-# ---------------------------------------------------------
 st.markdown("""
 <div class="page-header">
     <h1>Beyond College</h1>
@@ -102,9 +93,6 @@ st.markdown("""
 
 st.divider()
 
-# ---------------------------------------------------------
-# INTRO
-# ---------------------------------------------------------
 st.markdown("""
 <div class="section-title">I. Why Economic Outcomes Matter</div>
 
@@ -124,9 +112,6 @@ if access becomes more equal, do outcomes become equal too?
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION II — EDUCATION & EARNINGS
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">II. Education Still Pays (Unevenly)</div>', unsafe_allow_html=True)
 
 edu_income = pd.DataFrame({
@@ -158,9 +143,6 @@ Education remains one of the strongest predictors of earnings, yet access to edu
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION III — RACE & EARNINGS
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">III. Race and Earnings Among Full-Time Workers</div>', unsafe_allow_html=True)
 
 race_income = pd.DataFrame({
@@ -198,9 +180,6 @@ wealth inheritance, social capital, and geography.
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION IV — GENDER GAP
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">IV. Gender and the Wage Gap</div>', unsafe_allow_html=True)
 
 gender_df = pd.DataFrame({
@@ -226,9 +205,6 @@ according to U.S. Census data.
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION V — PIPELINE ARGUMENT
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">The Pipeline Does Not End at College</div>', unsafe_allow_html=True)
 
 st.markdown("""
@@ -247,9 +223,6 @@ then justice cannot be reduced to a single admissions decision.
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION VI — WEALTH VS INCOME
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">Income Is Not Wealth</div>', unsafe_allow_html=True)
 
 st.markdown("""

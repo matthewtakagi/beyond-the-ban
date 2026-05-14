@@ -1,21 +1,12 @@
-# pages/5_Whats_Next.py
-# Beyond the Ban | Page 5
-# WHAT'S NEXT?
-
 import streamlit as st
 
-# ---------------------------------------------------------
-# PAGE CONFIG
-# ---------------------------------------------------------
 st.set_page_config(
     page_title="What's Next?",
     page_icon="⚖️",
     layout="wide"
 )
 
-# ---------------------------------------------------------
-# STYLE
-# ---------------------------------------------------------
+
 st.markdown("""
 <style>
 .main {
@@ -125,9 +116,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# HEADER
-# ---------------------------------------------------------
 st.markdown("""
 <div class="page-header">
     <h1>What’s Next?</h1>
@@ -142,9 +130,6 @@ st.markdown("""
 
 st.divider()
 
-# ---------------------------------------------------------
-# INTRO REFLECTION
-# ---------------------------------------------------------
 st.markdown("""
 <div class="section-title">Where This Project Leads</div>
 
@@ -161,9 +146,6 @@ And if context is unequal, then institutions must confront whether neutrality al
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# BIG QUESTIONS
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">What America Still Has to Answer</div>', unsafe_allow_html=True)
 
 q1, q2, q3 = st.columns(3)
@@ -203,10 +185,6 @@ with q3:
     </div>
     """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# JUSTICE SYNTHESIS
-# ---------------------------------------------------------
-
 st.markdown('<div class="section-title">The Justice Problem</div>', unsafe_allow_html=True)
 
 st.markdown("""
@@ -227,9 +205,6 @@ The post-2023 era therefore did not end the justice debate, but instead, it inte
 
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# FUTURE PATHWAYS
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">Possible Futures</div>', unsafe_allow_html=True)
 
 st.markdown("""
@@ -263,9 +238,6 @@ when opportunity is unequally constructed?</b>
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# HUMAN DIMENSION
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">The Human Stakes</div>', unsafe_allow_html=True)
 
 st.markdown("""
@@ -288,9 +260,6 @@ and the boundaries of who gets seen as deserving.
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# FINAL CLAIM
-# ---------------------------------------------------------
 st.markdown("""
 <div class="final-box">
     <h2>Final Thought</h2>

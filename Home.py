@@ -2,18 +2,12 @@ import streamlit as st
 import altair as alt
 import pandas as pd
 
-# ---------------------------------------------------------
-# PAGE CONFIG
-# ---------------------------------------------------------
 st.set_page_config(
     page_title="Beyond the Ban | Home",
     page_icon="⚖️",
     layout="wide"
 )
 
-# ---------------------------------------------------------
-# CUSTOM CSS (UNIFIED WITH TIMELINE / SITE STYLE)
-# ---------------------------------------------------------
 st.markdown("""
 <style>
 .main {
@@ -106,9 +100,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# HERO SECTION
-# ---------------------------------------------------------
 st.markdown("""
 <div class="hero">
     <h1>Beyond the Ban: The Data of Affirmative Action</h1>
@@ -124,9 +115,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION 1 — WHY THIS MATTERS
-# ---------------------------------------------------------
+
 st.markdown('<div class="section-title">Why This Matters</div>', unsafe_allow_html=True)
 
 st.markdown("""
@@ -146,14 +135,8 @@ then the issue is both about policy and how people understand the topic of inequ
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# PEW DATA VISUALIZATIONS (AWARENESS + OPINION)
-# ---------------------------------------------------------
 col1, col2 = st.columns(2)
 
-# -------------------------
-# Chart 1: Awareness
-# -------------------------
 with col1:
     awareness_data = pd.DataFrame({
         "Category": [
@@ -175,10 +158,6 @@ with col1:
 
     st.altair_chart(awareness_chart, use_container_width=True)
 
-
-# -------------------------
-# Chart 2: Opinion Among Those Aware
-# -------------------------
 with col2:
     opinion_data = pd.DataFrame({
         "Category": [
@@ -200,9 +179,6 @@ with col2:
 
     st.altair_chart(opinion_chart, use_container_width=True)
 
-# ---------------------------------------------------------
-# SECTION 2 — CORE CLAIM
-# ---------------------------------------------------------
 st.markdown("""
 <div class="claim-box">
     <div class="claim-title">Our Claim</div>
@@ -212,9 +188,6 @@ As a result, affirmative action functions as a corrective mechanism aimed at add
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION 3 — JUSTICE FRAME
-# ---------------------------------------------------------
 st.markdown('<div class="section-title">Framing the Question Through Justice</div>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
@@ -244,9 +217,7 @@ This project explores affirmative action as a much deeper question:
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# SECTION 4 — HOW TO USE THIS WEBSITE
-# ---------------------------------------------------------
+
 st.markdown('<div class="section-title">How to Use This Project</div>', unsafe_allow_html=True)
 
 st.markdown("""
@@ -270,9 +241,6 @@ if st.button("Let's Begin →"):
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# FOOTER
-# ---------------------------------------------------------
 st.divider()
 
 st.markdown("""

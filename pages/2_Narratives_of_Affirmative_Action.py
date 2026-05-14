@@ -1,17 +1,11 @@
 import streamlit as st
 
-# ---------------------------------------------------------
-# PAGE CONFIG
-# ---------------------------------------------------------
 st.set_page_config(
     page_title="Narratives of Affirmative Action",
     page_icon="⚖️",
     layout="wide"
 )
 
-# ---------------------------------------------------------
-# STYLE (MATCH TIMELINE PAGE)
-# ---------------------------------------------------------
 st.markdown("""
 <style>
 .main { background: linear-gradient(to bottom, #fdfdfd, #ffffff); }
@@ -108,9 +102,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# HEADER
-# ---------------------------------------------------------
 st.markdown("""
 <div class="page-header">
     <h1>Narratives of Affirmative Action</h1>
@@ -120,9 +111,6 @@ st.markdown("""
 
 st.divider()
 
-# =========================================================
-# INTRO
-# =========================================================
 st.markdown("""
 <div class="final-box">
 This project is grounded in quantitative evidence, including SAT distributions, income gradients, and admissions pipelines.
@@ -130,9 +118,6 @@ However, numbers alone cannot capture how affirmative action is experienced, int
 </div>
 """, unsafe_allow_html=True)
 
-# =========================================================
-# PRO AFFIRMATIVE ACTION
-# =========================================================
 st.markdown('<div class="section-title">I. Pro-Affirmative Action Narratives</div>', unsafe_allow_html=True)
 
 st.markdown("""
@@ -225,9 +210,6 @@ Michael Wang was an earlier "poster child" for the anti-affirmative action movem
 </div>
 """, unsafe_allow_html=True)
 
-# =========================================================
-# COMPLEX
-# =========================================================
 st.markdown('<div class="section-title">III. Complex Narratives</div>', unsafe_allow_html=True)
 
 st.markdown("""
@@ -259,9 +241,6 @@ Moore originally wrote several essays about her experience as a Black student na
 </div>
 """, unsafe_allow_html=True)
 
-# =========================================================
-# FINAL TAKEAWAY
-# =========================================================
 st.markdown("""
 <div class="final-box">
 Even though this project is built on quantitative data, these narratives show what the numbers cannot:
